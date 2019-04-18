@@ -20,7 +20,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(final Country country) {
 
-        countryName.setText(country.getName());
+        countryName.setText(country.getCountry());
 
     }
 }

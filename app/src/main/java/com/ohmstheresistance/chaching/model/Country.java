@@ -23,4 +23,21 @@ public class Country {
     public int get_id() {
         return _id;
     }
+
+
+
+    public class LocationCoordinates {
+
+        private Double lon;
+        private Double lat;
+
+        public Double getLon() {
+            return lon;
+        }
+
+        public Double getLat() {
+            return lat;
+        }
+
+    }
 }
