@@ -13,23 +13,23 @@ public class MapFragment extends Fragment {
 
     private View rootView;
 
-    private static final String LOCATION_LAT = "lat";
     private static final String LOCATION_LON = "lon";
+    private static final String LOCATION_LAT = "lat";
 
-    private String lat;
     private String lon;
+    private String lat;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-    public static MapFragment getInstance(String lat, String lon) {
+    public static MapFragment getInstance(String lon, String lat) {
         MapFragment fragment = new MapFragment();
 
 
         Bundle args = new Bundle();
-        args.putString(LOCATION_LAT, lat);
         args.putString(LOCATION_LON, lon);
+        args.putString(LOCATION_LAT, lat);
         fragment.setArguments(args);
         return fragment;
     }

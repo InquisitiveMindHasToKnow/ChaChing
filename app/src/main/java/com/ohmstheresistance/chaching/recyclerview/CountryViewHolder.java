@@ -41,18 +41,16 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
                 Intent mapIntent = new Intent(itemView.getContext(), MapFragment.class);
                 Bundle mapBundle = new Bundle();
 
-
-
-                mapBundle.putString(LOCATION_LAT, country.getCoord().getLat());
                 mapBundle.putString(LOCATION_LON, country.getCoord().getLon());
+                mapBundle.putString(LOCATION_LAT, country.getCoord().getLat());
 
-                Log.d(TAG,  "the location works, too: " + country.getCoord().getLat());
-                Log.d(TAG,  "the location works, too: " + country.getCoord().getLon());
+                Log.d(TAG,  "Location onClick, Longitude: " + country.getCoord().getLon());
+                Log.d(TAG,  "Location onClick, Latitude: " + country.getCoord().getLat());
 
                 mapIntent.putExtras(mapBundle);
 
                 fragmentNavigation = (FragmentNavigation) v.getContext();
-                fragmentNavigation.goToLocationOnMap(country.getCoord().getLat(), country.getCoord().getLon());
+                fragmentNavigation.goToLocationOnMap(country.getCoord().getLon(), country.getCoord().getLat());
             }
         });
 

@@ -19,6 +19,9 @@ import com.ohmstheresistance.chaching.network.RetrofitSingleton;
 import com.ohmstheresistance.chaching.recyclerview.CountryAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,13 +62,15 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 countryList = response.body();
                 Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(0).getCountry());
-                Log.e(TAG, "the location works, OR DOES IT " + countryList.get(0).getCoord().getLat());
-                Log.e(TAG, "the location works, OR DOES IT " + countryList.get(0).getCoord().getLon());
+                Log.e(TAG, "the location works, Longitude: " + countryList.get(0).getCoord().getLon());
+                Log.e(TAG, "the location works, Latitude: " + countryList.get(0).getCoord().getLat());
 
                 countryAdapter = new CountryAdapter(response.body());
                 countryRecyclerView.setAdapter(countryAdapter);
                 countryRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 citySearchView.setOnQueryTextListener(MainFragment.this);
+
+                sortAllphabetically();
 
 
             }
@@ -78,6 +83,16 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
         });
         return rootView;
+    }
+
+    private void sortAllphabetically(){
+        Collections.sort(countryList, new Comparator<Country>() {
+            @Override
+            public int compare(Country o1, Country o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        countryAdapter.notifyDataSetChanged();
     }
 
     @Override

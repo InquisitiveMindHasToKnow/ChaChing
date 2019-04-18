@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.ohmstheresistance.chaching.fragments.FragmentNavigation;
 import com.ohmstheresistance.chaching.fragments.MainFragment;
 import com.ohmstheresistance.chaching.fragments.MapFragment;
+import com.ohmstheresistance.chaching.map.GoogleMaps;
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigation {
 
@@ -26,9 +27,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
 
 
     @Override
-    public void goToLocationOnMap(String lat, String lon) {
+    public void goToLocationOnMap(String lon, String lat) {
 
-        MapFragment mapFragment = MapFragment.getInstance(lat, lon);
+        //GoogleMaps googleMaps = GoogleMaps.getInstance(lon, lat)
+        MapFragment mapFragment = MapFragment.getInstance(lon, lat);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, mapFragment)
