@@ -35,4 +35,9 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryViewHolder> {
     public int getItemCount() {
         return countryList.size();
     }
+
+    public void setData(List<Country> newCountryList) {
+        this.countryList = newCountryList;
+        notifyDataSetChanged();
+    }
 }

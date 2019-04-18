@@ -11,16 +11,19 @@ import com.ohmstheresistance.chaching.model.Country;
 public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     private TextView countryName;
+    private TextView cityName;
 
     public CountryViewHolder(@NonNull View itemView) {
         super(itemView);
 
         countryName = itemView.findViewById(R.id.country_name_textview);
+        cityName = itemView.findViewById(R.id.city_name_textview);
     }
 
     public void onBind(final Country country) {
 
         countryName.setText(country.getCountry());
+        cityName.setText(country.getName());
 
     }
 }
