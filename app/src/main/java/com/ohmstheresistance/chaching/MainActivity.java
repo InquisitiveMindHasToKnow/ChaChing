@@ -5,9 +5,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.ohmstheresistance.chaching.fragments.FragmentNavigation;
 import com.ohmstheresistance.chaching.fragments.MainFragment;
+import com.ohmstheresistance.chaching.fragments.MapFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentNavigation {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,4 +24,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void goToLocationOnMap(String lat, String lon) {
+
+        MapFragment mapFragment = MapFragment.getInstance(lat, lon);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, mapFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
+

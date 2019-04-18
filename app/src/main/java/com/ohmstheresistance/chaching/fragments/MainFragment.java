@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ohmstheresistance.chaching.MainActivity;
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.model.Country;
 import com.ohmstheresistance.chaching.network.CountryService;
@@ -27,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private View rootView;
     private static final String TAG = "CountryJSON.TAG";
@@ -35,7 +34,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private SearchView citySearchView;
     private CountryAdapter countryAdapter;
     private Context context;
-    private List<Country> countryList = new ArrayList<>();
+    private List<Country> countryList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -46,9 +45,10 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
         countryRecyclerView = rootView.findViewById(R.id.country_recycler_view);
         citySearchView = rootView.findViewById(R.id.city_search_view);
+        countryList = new ArrayList<>();
 
         Retrofit countryRetrofit = RetrofitSingleton.getRetrofitInstance();
         CountryService countryService = countryRetrofit.create(CountryService.class);
@@ -57,13 +57,16 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             @Override
             public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
 
-                Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(7).getCountry());
+                countryList = response.body();
+                Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(0).getCountry());
+                Log.e(TAG, "the location works, OR DOES IT " + countryList.get(0).getCoord().getLat());
+                Log.e(TAG, "the location works, OR DOES IT " + countryList.get(0).getCoord().getLon());
+
                 countryAdapter = new CountryAdapter(response.body());
                 countryRecyclerView.setAdapter(countryAdapter);
                 countryRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 citySearchView.setOnQueryTextListener(MainFragment.this);
 
-                countryList = response.body();
 
             }
 

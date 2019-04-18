@@ -1,15 +1,22 @@
 package com.ohmstheresistance.chaching.model;
 
+import java.util.List;
+
 public class Country {
 
     private String country;
     private String name;
-    private int _id;
+    private Integer _id;
+    private LocationCoordinates coord;
 
-    public Country(String country, String name, int _id) {
+
+
+    public Country(String country, String name, Integer _id, LocationCoordinates coord) {
         this.country = country;
         this.name = name;
         this._id = _id;
+        this.coord = coord;
+
     }
 
     public String getCountry() {
@@ -24,19 +31,41 @@ public class Country {
         return _id;
     }
 
+    public LocationCoordinates getCoord() {
+        return coord;
+    }
 
+    public static class LocationCoordinates {
 
-    public class LocationCoordinates {
+        private String lat;
+        private String lon;
 
-        private Double lon;
-        private Double lat;
+        public LocationCoordinates(String lat, String lon) {
+            this.lat = lat;
+            this.lon = lon;
+        }
 
-        public Double getLon() {
+        public String getLon() {
             return lon;
         }
 
-        public Double getLat() {
+        public String getLat() {
             return lat;
+        }
+
+    }
+
+    public static class LocationAPI {
+        private static List<LocationCoordinates> coord;
+
+
+        public LocationAPI(List<LocationCoordinates> coord) {
+            this.coord = coord;
+
+        }
+
+        public static List<LocationCoordinates> getCoords() {
+            return coord;
         }
 
     }
