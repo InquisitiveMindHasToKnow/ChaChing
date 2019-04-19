@@ -39,6 +39,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private Context context;
     private List<Country> countryList;
 
+
     public MainFragment() {
         // Required empty public constructor
     }
