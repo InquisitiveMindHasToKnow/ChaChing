@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.ohmstheresistance.chaching.MainActivity;
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.model.Country;
 import com.ohmstheresistance.chaching.network.CountryService;
@@ -71,13 +73,15 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 countryRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 citySearchView.setOnQueryTextListener(MainFragment.this);
 
-                sortAllphabetically();
+                sortAlphabetically();
 
 
             }
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
+
+                Toast.makeText(getContext(), "Country Retrofit Call Failed", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Country Retrofit Call Failed: " + t.getMessage());
 
             }
@@ -86,7 +90,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         return rootView;
     }
 
-    private void sortAllphabetically(){
+    private void sortAlphabetically(){
         Collections.sort(countryList, new Comparator<Country>() {
             @Override
             public int compare(Country o1, Country o2) {
@@ -106,7 +110,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         List<Country> newCountryList = new ArrayList<>();
         for (Country country : countryList) {
 
-            if (country.getName().toLowerCase().contains(s.toLowerCase())) {
+            if (country.getName().toLowerCase().startsWith(s.toLowerCase())) {
                 newCountryList.add(country);
             }
         }
