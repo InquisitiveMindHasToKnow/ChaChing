@@ -55,7 +55,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
                 mapIntent.putExtras(mapBundle);
 
                 fragmentNavigation = (FragmentNavigation) v.getContext();
-                fragmentNavigation.onMapReady(country.getCoord().getLon(), country.getCoord().getLat());
+                fragmentNavigation.goToLocationOnMap(country.getCoord().getLon(), country.getCoord().getLat(), country.getName(), country.getCountry());
             }
         });
 
