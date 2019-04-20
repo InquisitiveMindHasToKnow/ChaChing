@@ -33,7 +33,6 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     private static final String LOCATION_CITY = "cityname";
     private static final String LOCATION_COUNTRY = "countryabbreviation";
     private String TAG_FOR_MAP_ICON = "";
-    private final String LOADING_BAR_MESSAGE = "Loading...Please Wait.";
 
     private String latitude;
     private String longitude;
@@ -62,7 +61,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
 
         lat = Double.parseDouble(latitude);
         lon = Double.parseDouble(longitude);
-        Log.e("Converted Longitude: ",  longitude);
+        Log.e("Converted Longitude: ", longitude);
 
 
         setDialog();
@@ -73,11 +72,12 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
     }
+
     public void setDialog() {
-        dialog = new ProgressDialog(this);
+        dialog = new ProgressDialog(this, R.style.DialogCustom);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
-        dialog.setMessage(LOADING_BAR_MESSAGE);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
@@ -102,14 +102,14 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
                                 LatLng latLng = new LatLng(lat, lon);
                                 chaChingMap.addMarker(new MarkerOptions().position(latLng).title(TAG_FOR_MAP_ICON).icon(BitmapDescriptorFactory.fromResource(R.mipmap.atmformap)));
 
-                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
                                 chaChingMap.animateCamera(cameraUpdate);
                                 UiSettings uiSettings = chaChingMap.getUiSettings();
                                 uiSettings.setZoomControlsEnabled(true);
                                 uiSettings.setMyLocationButtonEnabled(true);
 
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
+                                Handler progressDialogHandler = new Handler();
+                                progressDialogHandler.postDelayed(new Runnable() {
                                     public void run() {
                                         dialog.dismiss();
                                     }
