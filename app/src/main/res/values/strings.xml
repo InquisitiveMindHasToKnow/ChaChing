@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Cha Ching</string>
 
-
-    <string name="hello_blank_fragment">AT LEAST THE ONCLICK WORKS</string>
     <string name="title_activity_google_maps">Map</string>
+    <string name="loading_screen_text">Loading...Please Wait</string>
+
 </resources>

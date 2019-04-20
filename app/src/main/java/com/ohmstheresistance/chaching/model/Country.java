@@ -55,18 +55,18 @@ public class Country {
 
     }
 
-    public static class LocationAPI {
-        private static List<LocationCoordinates> coord;
-
-
-        public LocationAPI(List<LocationCoordinates> coord) {
-            this.coord = coord;
-
-        }
-
-        public static List<LocationCoordinates> getCoords() {
-            return coord;
-        }
-
-    }
+//    public static class LocationAPI {
+//        private static List<LocationCoordinates> coord;
+//
+//
+//        public LocationAPI(List<LocationCoordinates> coord) {
+//            this.coord = coord;
+//
+//        }
+//
+//        public static List<LocationCoordinates> getCoords() {
+//            return coord;
+//        }
+//
+//    }
 }

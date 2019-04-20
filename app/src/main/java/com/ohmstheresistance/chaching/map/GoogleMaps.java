@@ -1,8 +1,10 @@
 package com.ohmstheresistance.chaching.map;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -31,16 +33,18 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     private static final String LOCATION_CITY = "cityname";
     private static final String LOCATION_COUNTRY = "countryabbreviation";
     private String TAG_FOR_MAP_ICON = "";
+    private final String LOADING_BAR_MESSAGE = "Loading...Please Wait.";
 
     private String latitude;
     private String longitude;
     private String city;
     private String country;
 
-    double lat;
-    double lon;
+    private double lat;
+    private double lon;
 
     private Intent mapIntent;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +62,23 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
 
         lat = Double.parseDouble(latitude);
         lon = Double.parseDouble(longitude);
-
         Log.e("Converted Longitude: ",  longitude);
 
+
+        setDialog();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+    public void setDialog() {
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage(LOADING_BAR_MESSAGE);
+        dialog.show();
     }
 
 
@@ -78,6 +91,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
 
         } else {
+
             chaChingMap.setMyLocationEnabled(true);
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -88,18 +102,27 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
                                 LatLng latLng = new LatLng(lat, lon);
                                 chaChingMap.addMarker(new MarkerOptions().position(latLng).title(TAG_FOR_MAP_ICON).icon(BitmapDescriptorFactory.fromResource(R.mipmap.atmformap)));
 
-
                                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
                                 chaChingMap.animateCamera(cameraUpdate);
                                 UiSettings uiSettings = chaChingMap.getUiSettings();
                                 uiSettings.setZoomControlsEnabled(true);
                                 uiSettings.setMyLocationButtonEnabled(true);
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        dialog.dismiss();
+                                    }
+                                }, 6000);
+
                             }
                         }
                     });
 
         }
+
     }
+
 }
 
 

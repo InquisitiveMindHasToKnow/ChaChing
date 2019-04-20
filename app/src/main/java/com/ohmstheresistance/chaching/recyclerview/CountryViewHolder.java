@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.fragments.FragmentNavigation;
-import com.ohmstheresistance.chaching.fragments.MapFragment;
 import com.ohmstheresistance.chaching.map.GoogleMaps;
 import com.ohmstheresistance.chaching.model.Country;
 
