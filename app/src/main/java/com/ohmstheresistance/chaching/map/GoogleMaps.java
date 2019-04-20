@@ -102,7 +102,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
                                 LatLng latLng = new LatLng(lat, lon);
                                 chaChingMap.addMarker(new MarkerOptions().position(latLng).title(TAG_FOR_MAP_ICON).icon(BitmapDescriptorFactory.fromResource(R.mipmap.atmformap)));
 
-                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
                                 chaChingMap.animateCamera(cameraUpdate);
                                 UiSettings uiSettings = chaChingMap.getUiSettings();
                                 uiSettings.setZoomControlsEnabled(true);
