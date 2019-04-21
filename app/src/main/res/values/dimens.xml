@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cardcornerradius">24dp</dimen>
+    <dimen name="cardelevation">200dp</dimen>
+    <dimen name="itemviewcardheight">64dp</dimen>
+    <dimen name="cardmargin">8dp</dimen>
+    <dimen name="citytextsize">24sp</dimen>
+    <dimen name="countrytextsize">24sp</dimen>
+</resources>

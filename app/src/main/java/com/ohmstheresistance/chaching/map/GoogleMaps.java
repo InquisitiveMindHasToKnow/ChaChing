@@ -86,8 +86,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         chaChingMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1020);
 
         } else {
@@ -102,7 +101,7 @@ public class GoogleMaps extends FragmentActivity implements OnMapReadyCallback {
                                 LatLng latLng = new LatLng(lat, lon);
                                 chaChingMap.addMarker(new MarkerOptions().position(latLng).title(TAG_FOR_MAP_ICON).icon(BitmapDescriptorFactory.fromResource(R.mipmap.atmformap)));
 
-                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
                                 chaChingMap.animateCamera(cameraUpdate);
                                 UiSettings uiSettings = chaChingMap.getUiSettings();
                                 uiSettings.setZoomControlsEnabled(true);

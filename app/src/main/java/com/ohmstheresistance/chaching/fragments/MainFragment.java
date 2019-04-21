@@ -3,6 +3,8 @@ package com.ohmstheresistance.chaching.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +35,6 @@ import retrofit2.Retrofit;
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-    private View rootView;
     private static final String TAG = "CountryJSON.TAG";
     private RecyclerView countryRecyclerView;
     private SearchView citySearchView;
@@ -51,9 +52,17 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         countryRecyclerView = rootView.findViewById(R.id.country_recycler_view);
         citySearchView = rootView.findViewById(R.id.city_search_view);
+
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         countryList = new ArrayList<>();
 
         Retrofit countryRetrofit = RetrofitSingleton.getRetrofitInstance();
@@ -64,6 +73,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
 
                 countryList = response.body();
+
+                if(countryList == null){
+                    Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
+                }
+
                 Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(0).getCountry());
                 Log.e(TAG, "the location works, Longitude: " + countryList.get(0).getCoord().getLon());
                 Log.e(TAG, "the location works, Latitude: " + countryList.get(0).getCoord().getLat());
@@ -87,7 +101,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             }
 
         });
-        return rootView;
+
     }
 
     private void sortAlphabetically(){

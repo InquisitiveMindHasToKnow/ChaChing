@@ -23,18 +23,23 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private static final String LOCATION_CITY = "cityname";
     private static final String LOCATION_COUNTRY = "countryabbreviation";
     private static final String TAG = "CountryJSON.TAG";
+    private String city;
+
 
     public CountryViewHolder(@NonNull View itemView) {
         super(itemView);
 
         countryName = itemView.findViewById(R.id.country_name_textview);
         cityName = itemView.findViewById(R.id.city_name_textview);
+
+
     }
 
     public void onBind(final Country country) {
+        city = country.getName() + ",";
 
         countryName.setText(country.getCountry());
-        cityName.setText(country.getName() + ",");
+        cityName.setText(city);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
