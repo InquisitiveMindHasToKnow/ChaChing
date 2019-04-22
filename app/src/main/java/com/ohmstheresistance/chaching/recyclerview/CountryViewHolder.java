@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.fragments.FragmentNavigation;
-import com.ohmstheresistance.chaching.map.GoogleMaps;
+import com.ohmstheresistance.chaching.fragments.GoogleMapFragment;
 import com.ohmstheresistance.chaching.model.Country;
 
 public class CountryViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +45,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
 
-                Intent mapIntent = new Intent(itemView.getContext(), GoogleMaps.class);
+                Intent mapIntent = new Intent(itemView.getContext(), GoogleMapFragment.class);
                 Bundle mapBundle = new Bundle();
 
                 mapBundle.putString(LOCATION_LON, country.getCoord().getLon());
