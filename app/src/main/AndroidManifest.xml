@@ -36,10 +36,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBoX6iAQquIf5GHo-34OKHpjrS59e3z6I0" />
 
-        <activity
-            android:name=".map.GoogleMaps"
-            android:label="@string/title_activity_google_maps"></activity>
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

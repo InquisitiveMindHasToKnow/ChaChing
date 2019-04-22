@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.ohmstheresistance.chaching.MainActivity;
@@ -67,8 +69,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
         countryList = new ArrayList<>();
 
-
-
         Retrofit countryRetrofit = RetrofitSingleton.getRetrofitInstance();
         CountryService countryService = countryRetrofit.create(CountryService.class);
         countryService.getCountries().enqueue(new Callback<List<Country>>() {
@@ -91,6 +91,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 linearLayoutManager = new LinearLayoutManager(context);
                 countryRecyclerView.setLayoutManager(linearLayoutManager);
                 citySearchView.setOnQueryTextListener(MainFragment.this);
+                citySearchView.setIconified(false);
+                citySearchView.clearFocus();
+
 
                 sortAlphabetically();
 
