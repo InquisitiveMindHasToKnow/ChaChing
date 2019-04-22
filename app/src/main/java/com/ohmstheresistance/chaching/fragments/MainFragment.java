@@ -3,6 +3,7 @@ package com.ohmstheresistance.chaching.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -41,7 +42,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private CountryAdapter countryAdapter;
     private Context context;
     private List<Country> countryList;
-
+    private LinearLayoutManager linearLayoutManager;
+    Parcelable currentState;
 
     public MainFragment() {
         // Required empty public constructor
@@ -65,6 +67,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
         countryList = new ArrayList<>();
 
+
+
         Retrofit countryRetrofit = RetrofitSingleton.getRetrofitInstance();
         CountryService countryService = countryRetrofit.create(CountryService.class);
         countryService.getCountries().enqueue(new Callback<List<Country>>() {
@@ -84,11 +88,14 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 countryAdapter = new CountryAdapter(response.body());
                 countryRecyclerView.setAdapter(countryAdapter);
-                countryRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                linearLayoutManager = new LinearLayoutManager(context);
+                countryRecyclerView.setLayoutManager(linearLayoutManager);
                 citySearchView.setOnQueryTextListener(MainFragment.this);
 
                 sortAlphabetically();
 
+                onPause();
+                onResume();
 
             }
 
@@ -100,8 +107,20 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
             }
 
+
         });
 
+    }
+
+    private void resumeFromLasPosition() {
+        countryRecyclerView.setAdapter(countryAdapter);
+        linearLayoutManager.onRestoreInstanceState(currentState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        currentState = linearLayoutManager.onSaveInstanceState();
     }
 
     private void sortAlphabetically(){
@@ -112,6 +131,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             }
         });
         countryAdapter.notifyDataSetChanged();
+        resumeFromLasPosition();
     }
 
     @Override
