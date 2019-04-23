@@ -104,6 +104,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 citySearchView.clearFocus();
 
 
+
                 sortAlphabetically();
 
                 onPause();
@@ -146,14 +147,24 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         resumeFromLasPosition();
     }
 
+    private void sortCountryAlphabetically() {
+        Collections.sort(countryList, new Comparator<Country>() {
+            @Override
+            public int compare(Country o1, Country o2) {
+                return o1.getCountry().compareTo(o2.getCountry());
+            }
+        });
+        countryAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onQueryTextSubmit(String s) {
+
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(final String s) {
-
 
         int id = radioGroup.getCheckedRadioButtonId();
         switch (id) {
@@ -170,13 +181,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                     }
                 }
                 countryAdapter.setData(newCityList);
-                resumeFromLasPosition();
                 break;
 
             case R.id.search_by_country_radio_button:
 
                 Log.e("Searching by country", "COUNTRY RADIO BUTTON WORKS");
 
+                sortCountryAlphabetically();
                 List<Country> newCountryList = new ArrayList<>();
                 for (Country country : countryList) {
                     if (country.getCountry().toLowerCase().startsWith(s.toLowerCase())) {
@@ -184,7 +195,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                     }
                 }
                 countryAdapter.setData(newCountryList);
-                resumeFromLasPosition();
                 break;
 
             default:
