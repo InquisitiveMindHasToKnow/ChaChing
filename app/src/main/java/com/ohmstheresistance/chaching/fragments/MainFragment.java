@@ -14,11 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.ohmstheresistance.chaching.MainActivity;
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.model.Country;
 import com.ohmstheresistance.chaching.network.CountryService;
@@ -26,7 +26,6 @@ import com.ohmstheresistance.chaching.network.RetrofitSingleton;
 import com.ohmstheresistance.chaching.recyclerview.CountryAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +46,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private LinearLayoutManager linearLayoutManager;
     Parcelable currentState;
 
+    private RadioGroup radioGroup;
+    private RadioButton cityRadioButtonSelected;
+    private RadioButton countryRadioButtonSelected;
+
+    final String s = "";
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -59,6 +64,10 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         countryRecyclerView = rootView.findViewById(R.id.country_recycler_view);
         citySearchView = rootView.findViewById(R.id.city_search_view);
+
+        radioGroup = rootView.findViewById(R.id.radiogroup);
+        cityRadioButtonSelected = rootView.findViewById(R.id.search_by_city_radio_button);
+        countryRadioButtonSelected = rootView.findViewById(R.id.search_by_country_radio_button);
 
         return rootView;
     }
@@ -78,7 +87,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 countryList = response.body();
 
-                if(countryList == null){
+                if (countryList == null) {
                     Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
                 }
 
@@ -126,7 +135,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         currentState = linearLayoutManager.onSaveInstanceState();
     }
 
-    private void sortAlphabetically(){
+    private void sortAlphabetically() {
         Collections.sort(countryList, new Comparator<Country>() {
             @Override
             public int compare(Country o1, Country o2) {
@@ -143,16 +152,51 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public boolean onQueryTextChange(String s) {
-        List<Country> newCountryList = new ArrayList<>();
-        for (Country country : countryList) {
+    public boolean onQueryTextChange(final String s) {
 
-            if (country.getName().toLowerCase().startsWith(s.toLowerCase())) {
-                newCountryList.add(country);
-            }
+
+        int id = radioGroup.getCheckedRadioButtonId();
+        switch (id) {
+
+            case R.id.search_by_city_radio_button:
+
+                Log.e("Searching by country", "CITY RADIO BUTTON WORKS");
+
+                List<Country> newCityList = new ArrayList<>();
+                for (Country city : countryList) {
+
+                    if (city.getName().toLowerCase().startsWith(s.toLowerCase())) {
+                        newCityList.add(city);
+                    }
+                }
+                countryAdapter.setData(newCityList);
+                resumeFromLasPosition();
+                break;
+
+            case R.id.search_by_country_radio_button:
+
+                Log.e("Searching by country", "COUNTRY RADIO BUTTON WORKS");
+
+                List<Country> newCountryList = new ArrayList<>();
+                for (Country country : countryList) {
+                    if (country.getCountry().toLowerCase().startsWith(s.toLowerCase())) {
+                        newCountryList.add(country);
+                    }
+                }
+                countryAdapter.setData(newCountryList);
+                resumeFromLasPosition();
+                break;
+
+            default:
+                Toast.makeText( context, "Error Filtering" , Toast.LENGTH_LONG).show();
+
+                break;
         }
-        countryAdapter.setData(newCountryList);
+
         return false;
     }
-
 }
+
+
+
+

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container, mainFragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.disallowAddToBackStack();
         fragmentTransaction.commit();
 
     }
