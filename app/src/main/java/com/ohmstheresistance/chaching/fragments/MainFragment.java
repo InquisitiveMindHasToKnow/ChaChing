@@ -50,8 +50,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private RadioButton cityRadioButtonSelected;
     private RadioButton countryRadioButtonSelected;
 
-    final String s = "";
-
     public MainFragment() {
         // Required empty public constructor
     }
@@ -117,13 +115,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 Toast.makeText(getContext(), "Country Retrofit Call Failed", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Country Retrofit Call Failed: " + t.getMessage());
-
             }
-
 
         });
 
-    }
+        }
+
 
     private void resumeFromLasPosition() {
         countryRecyclerView.setAdapter(countryAdapter);
@@ -164,6 +161,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("userEntry", citySearchView.getQuery().toString());
+    }
+
+    @Override
     public boolean onQueryTextChange(final String s) {
 
         int id = radioGroup.getCheckedRadioButtonId();
@@ -172,6 +176,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             case R.id.search_by_city_radio_button:
 
                 Log.e("Searching by country", "CITY RADIO BUTTON WORKS");
+
+                sortAlphabetically();
 
                 List<Country> newCityList = new ArrayList<>();
                 for (Country city : countryList) {
@@ -188,6 +194,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 Log.e("Searching by country", "COUNTRY RADIO BUTTON WORKS");
 
                 sortCountryAlphabetically();
+
                 List<Country> newCountryList = new ArrayList<>();
                 for (Country country : countryList) {
                     if (country.getCountry().toLowerCase().startsWith(s.toLowerCase())) {
@@ -205,6 +212,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
         return false;
     }
+
+
 }
 
 
