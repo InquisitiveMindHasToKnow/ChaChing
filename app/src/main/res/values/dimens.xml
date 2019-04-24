@@ -6,4 +6,6 @@
     <dimen name="cardmargin">8dp</dimen>
     <dimen name="citytextsize">24sp</dimen>
     <dimen name="countrytextsize">24sp</dimen>
+    <dimen name="second_radio_button">48dp</dimen>
+    <dimen name="first_radio_button">40dp</dimen>
 </resources>

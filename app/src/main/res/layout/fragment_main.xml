@@ -54,7 +54,7 @@
                 android:id="@+id/search_by_city_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="@dimen/first_radio_button"
                 android:buttonTint="@color/colorPrimaryDark"
                 android:checked="true"
                 android:text="@string/search_by_city" />
@@ -64,7 +64,7 @@
                 android:id="@+id/search_by_country_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="@dimen/second_radio_button"
                 android:buttonTint="@color/colorPrimaryDark"
                 android:text="@string/country_search_radio" />
 
