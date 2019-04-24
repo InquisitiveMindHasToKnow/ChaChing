@@ -22,7 +22,6 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private static final String LOCATION_LON = "lon";
     private static final String LOCATION_CITY = "cityname";
     private static final String LOCATION_COUNTRY = "countryabbreviation";
-    private static final String TAG = "CountryJSON.TAG";
     private String city;
 
 
@@ -52,9 +51,6 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
                 mapBundle.putString(LOCATION_LAT, country.getCoord().getLat());
                 mapBundle.putString(LOCATION_CITY, country.getName());
                 mapBundle.putString(LOCATION_COUNTRY, country.getCountry());
-
-                Log.d(TAG,  "Location onClick, Longitude: " + country.getCoord().getLon());
-                Log.d(TAG,  "Location onClick, Latitude: " + country.getCoord().getLat());
 
                 mapIntent.putExtras(mapBundle);
 

@@ -14,11 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.ohmstheresistance.chaching.MainActivity;
 import com.ohmstheresistance.chaching.R;
 import com.ohmstheresistance.chaching.model.Country;
 import com.ohmstheresistance.chaching.network.CountryService;
@@ -26,7 +24,6 @@ import com.ohmstheresistance.chaching.network.RetrofitSingleton;
 import com.ohmstheresistance.chaching.recyclerview.CountryAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,6 +36,8 @@ import retrofit2.Retrofit;
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "CountryJSON.TAG";
+
+
     private RecyclerView countryRecyclerView;
     private SearchView citySearchView;
     private CountryAdapter countryAdapter;
@@ -47,10 +46,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private LinearLayoutManager linearLayoutManager;
     Parcelable currentState;
 
+
+    private RadioGroup radioGroup;
+
     public MainFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +60,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         countryRecyclerView = rootView.findViewById(R.id.country_recycler_view);
         citySearchView = rootView.findViewById(R.id.city_search_view);
+        radioGroup = rootView.findViewById(R.id.radiogroup);
 
         return rootView;
     }
@@ -78,13 +80,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 countryList = response.body();
 
-                if(countryList == null){
+                if (countryList == null) {
                     Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
                 }
-
-                Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(0).getCountry());
-                Log.e(TAG, "the location works, Longitude: " + countryList.get(0).getCoord().getLon());
-                Log.e(TAG, "the location works, Latitude: " + countryList.get(0).getCoord().getLat());
 
                 countryAdapter = new CountryAdapter(response.body());
                 countryRecyclerView.setAdapter(countryAdapter);
@@ -107,9 +105,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
                 Toast.makeText(getContext(), "Country Retrofit Call Failed", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Country Retrofit Call Failed: " + t.getMessage());
-
             }
-
 
         });
 
@@ -126,7 +122,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         currentState = linearLayoutManager.onSaveInstanceState();
     }
 
-    private void sortAlphabetically(){
+    private void sortAlphabetically() {
         Collections.sort(countryList, new Comparator<Country>() {
             @Override
             public int compare(Country o1, Country o2) {
@@ -137,22 +133,66 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         resumeFromLasPosition();
     }
 
+    private void sortCountryAlphabetically() {
+        Collections.sort(countryList, new Comparator<Country>() {
+            @Override
+            public int compare(Country o1, Country o2) {
+                return o1.getCountry().compareTo(o2.getCountry());
+            }
+        });
+        countryAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onQueryTextSubmit(String s) {
+
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String s) {
-        List<Country> newCountryList = new ArrayList<>();
-        for (Country country : countryList) {
+    public boolean onQueryTextChange(final String s) {
 
-            if (country.getName().toLowerCase().startsWith(s.toLowerCase())) {
-                newCountryList.add(country);
-            }
+        int id = radioGroup.getCheckedRadioButtonId();
+        switch (id) {
+
+            case R.id.search_by_city_radio_button:
+
+                sortAlphabetically();
+
+                List<Country> newCityList = new ArrayList<>();
+                for (Country city : countryList) {
+
+                    if (city.getName().toLowerCase().startsWith(s.toLowerCase())) {
+                        newCityList.add(city);
+                    }
+                }
+                countryAdapter.setData(newCityList);
+                break;
+
+            case R.id.search_by_country_radio_button:
+
+                sortCountryAlphabetically();
+
+                List<Country> newCountryList = new ArrayList<>();
+                for (Country country : countryList) {
+                    if (country.getCountry().toLowerCase().startsWith(s.toLowerCase())) {
+                        newCountryList.add(country);
+                    }
+                }
+                countryAdapter.setData(newCountryList);
+                break;
+
+            default:
+                Toast.makeText(context, "Error Filtering", Toast.LENGTH_LONG).show();
+
+                break;
         }
-        countryAdapter.setData(newCountryList);
+
         return false;
     }
 
 }
+
+
+
+
