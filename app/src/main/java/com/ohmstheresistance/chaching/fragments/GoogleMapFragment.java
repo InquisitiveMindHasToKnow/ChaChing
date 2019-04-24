@@ -31,7 +31,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap chaChingMap;
     private MapView chaChingMapView;
     private View googleMapView;
-    private FusedLocationProviderClient fusedLocationClient;
+
     private static final String LOCATION_LON = "lon";
     private static final String LOCATION_LAT = "lat";
     private static final String LOCATION_CITY = "cityname";

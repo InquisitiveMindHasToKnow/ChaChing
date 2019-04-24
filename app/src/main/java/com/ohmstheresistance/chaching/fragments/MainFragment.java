@@ -14,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -38,6 +36,8 @@ import retrofit2.Retrofit;
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "CountryJSON.TAG";
+
+
     private RecyclerView countryRecyclerView;
     private SearchView citySearchView;
     private CountryAdapter countryAdapter;
@@ -46,14 +46,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private LinearLayoutManager linearLayoutManager;
     Parcelable currentState;
 
+
     private RadioGroup radioGroup;
-    private RadioButton cityRadioButtonSelected;
-    private RadioButton countryRadioButtonSelected;
 
     public MainFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,10 +60,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         countryRecyclerView = rootView.findViewById(R.id.country_recycler_view);
         citySearchView = rootView.findViewById(R.id.city_search_view);
-
         radioGroup = rootView.findViewById(R.id.radiogroup);
-        cityRadioButtonSelected = rootView.findViewById(R.id.search_by_city_radio_button);
-        countryRadioButtonSelected = rootView.findViewById(R.id.search_by_country_radio_button);
 
         return rootView;
     }
@@ -89,10 +84,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                     Toast.makeText(getContext(), "Unable To Display Empty List", Toast.LENGTH_LONG).show();
                 }
 
-                Log.d(TAG, "Country Retrofit Call Works: " + response.body().get(0).getCountry());
-                Log.e(TAG, "the location works, Longitude: " + countryList.get(0).getCoord().getLon());
-                Log.e(TAG, "the location works, Latitude: " + countryList.get(0).getCoord().getLat());
-
                 countryAdapter = new CountryAdapter(response.body());
                 countryRecyclerView.setAdapter(countryAdapter);
                 linearLayoutManager = new LinearLayoutManager(context);
@@ -100,7 +91,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 citySearchView.setOnQueryTextListener(MainFragment.this);
                 citySearchView.setIconified(false);
                 citySearchView.clearFocus();
-
 
 
                 sortAlphabetically();
@@ -119,8 +109,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
         });
 
-        }
-
+    }
 
     private void resumeFromLasPosition() {
         countryRecyclerView.setAdapter(countryAdapter);
@@ -161,21 +150,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putString("userEntry", citySearchView.getQuery().toString());
-    }
-
-    @Override
     public boolean onQueryTextChange(final String s) {
 
         int id = radioGroup.getCheckedRadioButtonId();
         switch (id) {
 
             case R.id.search_by_city_radio_button:
-
-                Log.e("Searching by country", "CITY RADIO BUTTON WORKS");
 
                 sortAlphabetically();
 
@@ -191,8 +171,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
             case R.id.search_by_country_radio_button:
 
-                Log.e("Searching by country", "COUNTRY RADIO BUTTON WORKS");
-
                 sortCountryAlphabetically();
 
                 List<Country> newCountryList = new ArrayList<>();
@@ -205,14 +183,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 break;
 
             default:
-                Toast.makeText( context, "Error Filtering" , Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Error Filtering", Toast.LENGTH_LONG).show();
 
                 break;
         }
 
         return false;
     }
-
 
 }
 
